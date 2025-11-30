@@ -27,6 +27,7 @@ public class AccountController {
 		this.service = service;
 	}
 	
+	
 	@PostMapping
 	public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDto) {
 		return new ResponseEntity<>(service.addAccount(accountDto),HttpStatus.CREATED);
@@ -48,16 +49,20 @@ public class AccountController {
 		double amount=request.get("amount");
 		return ResponseEntity.ok(service.withDraw(id, amount));
 	}
+	
 	@GetMapping
 	public ResponseEntity<List<AccountDTO>> getAllAccountHolders(){
 		return ResponseEntity.ok(service.getAllAccounts());
 	}
+	
 	@PutMapping
 	public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO account){
 		return ResponseEntity.ok(service.updateAccount(account));
 	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id){
 		return ResponseEntity.ok(service.deleteAccount(id));
 	}
+	
 }
