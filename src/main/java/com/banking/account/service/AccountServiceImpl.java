@@ -10,6 +10,7 @@ import com.banking.account.dto.AccountDTO;
 import com.banking.account.entity.Account;
 import com.banking.account.exception.AccountNotFoundException;
 import com.banking.account.exception.InSufficientBalanceException;
+import com.banking.account.exception.NegativeAmountException;
 import com.banking.account.mapper.AccountMapper;
 import com.banking.account.repository.AccountRepository;
 
@@ -65,7 +66,10 @@ public class AccountServiceImpl implements AccountService{
 		Account  pressentAccount=accountRepository
 				.findById(id)
 				.orElseThrow(()->new AccountNotFoundException("Account Does not Exist!"));
-		if(amount>pressentAccount.getBalance()) {
+		if(amount<0) {
+			throw new NegativeAmountException("Please Enter Valid Amount!");
+		}
+		else if(amount>pressentAccount.getBalance()) {
 			throw new InSufficientBalanceException("Insufficient Balance!");
 		}
 		double totalAmount=pressentAccount.getBalance()-amount;
